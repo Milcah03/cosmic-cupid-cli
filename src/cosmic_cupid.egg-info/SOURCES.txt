@@ -1,0 +1,13 @@
+pyproject.toml
+src/__init__.py
+src/engine.py
+src/exporter.py
+src/main.py
+src/test_card.py
+src/ui.py
+src/cosmic_cupid.egg-info/PKG-INFO
+src/cosmic_cupid.egg-info/SOURCES.txt
+src/cosmic_cupid.egg-info/dependency_links.txt
+src/cosmic_cupid.egg-info/entry_points.txt
+src/cosmic_cupid.egg-info/requires.txt
+src/cosmic_cupid.egg-info/top_level.txt

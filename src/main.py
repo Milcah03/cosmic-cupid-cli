@@ -1,52 +1,67 @@
-from ui import CosmicUI
-from engine import get_compatibility_reading 
-from exporter import export_as_image
 import time
-from rich.progress import Progress
+import os
+import warnings
+from src.ui import CosmicUI
+from src.engine import get_compatibility_reading
+from src.exporter import save_card_to_image
 from rich.console import Console
 from rich.panel import Panel
 from rich.align import Align
+from rich.text import Text
+from rich.prompt import Prompt
+from rich.table import Table
 
+warnings.filterwarnings("ignore")
 console = Console()
 
-def run_app():
+def main():
     ui = CosmicUI()
+    os.system('cls' if os.name == 'nt' else 'clear')
     
-    console.print("\n[bold magenta]💘 COSMIC CUPID 2026: THE PARTNER RITUAL 💘[/]", justify="center")
-    
-    # 1. Collect Data for BOTH people
-    name = input("Enter your name: ")
-    bday = input("Enter your birthdate (e.g., Dec 03 1995): ")
-    
-    p_name = input("\nEnter your partner's name: ")
-    p_bday = input("Enter partner's birthdate (e.g., May 20 1996): ")
+    # --- 1. THE VALENTINE HEADER ---
+    header_text = Text.assemble(
+        ("\n🌹 ", "red"),
+        ("COSMIC CUPID 2026 ", "bold deep_pink3"),
+        ("🌹\n", "red"),
+        ("A partner ritual for the fated.", "italic light_pink3")
+    )
+    console.print(Align.center(Panel(header_text, border_style="red", padding=(1, 5))))
 
-    # 2. Dramatic Progress Bar
-    with Progress() as progress:
-        task = progress.add_task("[magenta]Syncing Souls & Transits...", total=100)
-        while not progress.finished:
-            time.sleep(0.01)
-            progress.update(task, advance=2)
-
-    # 3. GLOBAL CONTEXT: Show the Weekend Weather (Saturn/Venus/Eclipse facts)
-    ui.show_cosmic_weather()
-    time.sleep(1.5) # Pause for impact
-
-    # 4. PERSONAL LOGIC: Calculate based on historical Saturn dates
-    reading, badge_text, *_ = get_compatibility_reading(name, bday, p_name, p_bday)
+    # --- 2. THE INPUT SANCTUARY ---
+    console.print("\n" + " " * 20 + "[bold red]❤ YOUR DETAILS[/]")
+    name = Prompt.ask(" " * 20 + "[hot_pink3]Your Name[/]")
+    bday = Prompt.ask(" " * 20 + "[hot_pink3]Birthdate[/] [grey62](Dec 03 1995)[/]")
     
-    # 5. KARMIC ALERT: Special UI for the Saturn in Pisces Generation (1993-1996)
-    # This specifically checks if the logic returned a "GRADUATION" status
-    if "GRADUATION" in badge_text or "PISCES" in badge_text:
-        ui.show_saturn_warning()
-    
-    # 6. DISPLAY RESULTS: Show the terminal card
-    display_name = f"{name} & {p_name}"
-    ui.show_card(display_name, reading, 95)
+    console.print("\n" + " " * 20 + "[bold red]❤ PARTNER DETAILS[/]")
+    p_name = Prompt.ask(" " * 20 + "[hot_pink3]Partner Name[/]")
+    p_bday = Prompt.ask(" " * 20 + "[hot_pink3]Birthdate[/] [grey62](May 20 1996)[/]")
 
-    # 7. EXPORT: Generate the PNG for the Valentine's Gift
-    path = export_as_image(f"{name}_{p_name}", reading, 95)
-    console.print(f"\n[bold green]✅ Success![/] Your shared destiny card is ready: [bold white]{path}[/]")
+    # --- 3. THE RITUAL TRANSITION ---
+    console.print("\n")
+    # Switched to 'dots' for universal compatibility across terminal versions
+    with console.status("[bold deep_pink3]Knitting your stars together...[/]", spinner="dots"):
+        reading, badge_text, *_ = get_compatibility_reading(name, bday, p_name, p_bday)
+        time.sleep(2.5) 
+
+    # --- 4. SHOW RESULTS ---
+    os.system('cls' if os.name == 'nt' else 'clear')
+    
+    if any(k in badge_text.upper() for k in ["GRADUATION", "PISCES", "INITIATE"]):
+        ui.show_saturn_warning(badge_text)
+    
+    ui.show_card(f"{name} & {p_name}", reading, 95)
+
+    # --- 5. EXPORT & SUCCESS ---
+    path = save_card_to_image(f"{name}_{p_name}", reading, 95)
+    
+    final_box = Text.assemble(
+        ("✨ Destiny Card Saved ✨\n", "bold white"),
+        (f"{path}", "italic hot_pink3")
+    )
+    console.print(Align.center(Panel(final_box, border_style="red", expand=False)))
+    
+    # Keeps terminal open for the user to admire the card
+    input("\n" + " " * 20 + "[Press Enter to leave the ritual...]")
 
 if __name__ == "__main__":
-    run_app()
+    main()

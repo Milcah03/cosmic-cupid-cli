@@ -1,0 +1,2 @@
+[console_scripts]
+cosmic-cupid = src.main:main

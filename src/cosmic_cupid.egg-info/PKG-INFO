@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: cosmic-cupid
+Version: 0.1.0
+Summary: An AI-powered cosmic Valentine card generator for the terminal.
+Requires-Dist: rich
+Requires-Dist: kerykeion
+Requires-Dist: Pillow
