@@ -56,4 +56,4 @@ Repository = "https://github.com/Milcah03/cosmic-cupid-cli.git"
 "Bug Tracker" = "https://github.com/Milcah03/cosmic-cupid-cli/issues"
 
 [project.scripts]
-cosmic-cupid = "src.main:main"
+cosmic-cupid = "main:main"
