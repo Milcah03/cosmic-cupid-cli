@@ -6,11 +6,51 @@ build-backend = "setuptools.build_meta"
 name = "cosmic-cupid"
 version = "0.1.0"
 description = "An AI-powered cosmic Valentine card generator for the terminal."
-dependencies = [
-    "rich",
-    "kerykeion",
-    "Pillow"
+readme = "README.md"
+requires-python = ">=3.8"
+license = {text = "MIT"}
+authors = [
+    {name = "Milcah", email = "your-email@example.com"}
 ]
+keywords = ["astrology", "valentine", "cli", "terminal", "card-generator", "cosmic"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Environment :: Console",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Natural Language :: English",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics",
+    "Topic :: Office/Business",
+    "Topic :: Utilities",
+]
+dependencies = [
+    "rich>=10.0.0",
+    "kerykeion>=4.0.0",
+    "Pillow>=8.0.0",
+    "requests>=2.25.0"
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.0.0",
+    "black>=22.0.0",
+    "flake8>=4.0.0",
+    "build>=0.8.0",
+    "twine>=4.0.0",
+    "pyinstaller>=5.0.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/Milcah03/cosmic-cupid-cli"
+Repository = "https://github.com/Milcah03/cosmic-cupid-cli.git"
+"Bug Tracker" = "https://github.com/Milcah03/cosmic-cupid-cli/issues"
 
 [project.scripts]
 cosmic-cupid = "src.main:main"

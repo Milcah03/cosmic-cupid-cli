@@ -4,6 +4,7 @@ import warnings
 from src.ui import CosmicUI
 from src.engine import get_compatibility_reading
 from src.exporter import save_card_to_image
+from src.auth import GitHubOAuth
 from rich.console import Console
 from rich.panel import Panel
 from rich.align import Align
@@ -14,7 +15,50 @@ from rich.table import Table
 warnings.filterwarnings("ignore")
 console = Console()
 
+def authenticate_user():
+    """Handle GitHub OAuth authentication flow"""
+    os.system('cls' if os.name == 'nt' else 'clear')
+    
+    auth_prompt = Text.assemble(
+        ("\n✨ ", "deep_pink3"),
+        ("AUTHENTICATION REQUIRED", "bold deep_pink3"),
+        (" ✨\n", "deep_pink3"),
+        ("Type ", "light_pink3"),
+        ("/login", "bold hot_pink3"),
+        (" to authenticate with GitHub", "light_pink3")
+    )
+    console.print(Align.center(Panel(auth_prompt, border_style="red", padding=(1, 3))))
+    
+    while True:
+        user_input = Prompt.ask("\n" + " " * 20 + "[hot_pink3]Enter command[/]").strip()
+        
+        if user_input.lower() == "/login":
+            try:
+                console.print("\n[bold deep_pink3]Initiating GitHub authentication...[/]")
+                oauth = GitHubOAuth()
+                oauth.initiate_login()
+                username = oauth.get_username()
+                
+                os.system('cls' if os.name == 'nt' else 'clear')
+                success_text = Text.assemble(
+                    ("✨ ", "deep_pink3"),
+                    (f"Welcome, {username}!", "bold hot_pink3"),
+                    (" ✨", "deep_pink3")
+                )
+                console.print(Align.center(Panel(success_text, border_style="red", padding=(1, 3))))
+                time.sleep(2)
+                return True
+                
+            except Exception as e:
+                console.print(f"\n[bold red]❌ Authentication failed: {str(e)}[/]")
+                console.print("[yellow]Please try again.[/]\n")
+        else:
+            console.print("[red]Invalid command. Type /login to authenticate.[/]")
+
 def main():
+    # --- 0. AUTHENTICATION ---
+    authenticate_user()
+    
     ui = CosmicUI()
     os.system('cls' if os.name == 'nt' else 'clear')
     

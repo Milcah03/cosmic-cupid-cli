@@ -1,4 +1,5 @@
 __init__
+auth
 engine
 exporter
 main

@@ -1,5 +1,12 @@
+AUTH_SETUP.md
+CHANGELOG.md
+LICENSE
+MANIFEST.in
+README.md
 pyproject.toml
+requirements.txt
 src/__init__.py
+src/auth.py
 src/engine.py
 src/exporter.py
 src/main.py
