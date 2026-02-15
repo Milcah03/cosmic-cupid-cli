@@ -60,8 +60,7 @@ jobs:
       shell: bash
     
     - name: Upload Release Asset
-      uses: softprops/action-gh-release@v1
-      with:
-        files: ${{ matrix.asset_name }}
+      run: |
+        gh release upload v0.1.0 "${{ matrix.asset_name }}" --clobber
       env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GITHUB_TOKEN: ${{ github.token }}
