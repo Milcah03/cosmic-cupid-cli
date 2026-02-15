@@ -61,6 +61,9 @@ jobs:
     
     - name: Upload Release Asset
       run: |
-        gh release upload v0.1.0 "${{ matrix.asset_name }}" --clobber
-      env:
-        GITHUB_TOKEN: ${{ github.token }}
+        RELEASE_ID=$(curl -s https://api.github.com/repos/Milcah03/cosmic-cupid-cli/releases/tags/v0.1.0 | grep '"id"' | head -1 | grep -oP ':\s*\K[0-9]+')
+        curl -X POST \
+          -H "Authorization: token ${{ github.token }}" \
+          -H "Content-Type: application/octet-stream" \
+          --data-binary @"${{ matrix.asset_name }}" \
+          "https://uploads.github.com/repos/Milcah03/cosmic-cupid-cli/releases/${RELEASE_ID}/assets?name=${{ matrix.asset_name }}"
